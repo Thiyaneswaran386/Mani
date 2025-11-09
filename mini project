@@ -1,0 +1,89 @@
+package WeatherForcast;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.HashMap;
+
+public class WeatherForecast extends JFrame {
+
+    private JTextField cityField;
+    private JButton getWeatherButton;
+    private JLabel resultLabel;
+
+    public WeatherForecast() {
+        // Frame settings
+        setTitle("Weather Forecasting Application");
+        setSize(400, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+        getContentPane().setBackground(new Color(220, 240, 255));
+
+        // Heading label
+        JLabel heading = new JLabel("Weather Forecasting");
+        heading.setFont(new Font("Arial", Font.BOLD, 20));
+        heading.setBounds(90, 20, 250, 30);
+        add(heading);
+
+        // City name label
+        JLabel cityLabel = new JLabel("Enter City Name:");
+        cityLabel.setBounds(50, 80, 120, 25);
+        add(cityLabel);
+
+        // Text field for city name
+        cityField = new JTextField();
+        cityField.setBounds(180, 80, 150, 25);
+        add(cityField);
+
+        // Button to get weather
+        getWeatherButton = new JButton("Get Weather");
+        getWeatherButton.setBounds(130, 130, 120, 30);
+        getWeatherButton.setBackground(new Color(100, 150, 255));
+        getWeatherButton.setForeground(Color.WHITE);
+        add(getWeatherButton);
+
+        // Result label
+        resultLabel = new JLabel("");
+        resultLabel.setBounds(50, 180, 300, 70);
+        resultLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+        add(resultLabel);
+
+        // Button action
+        getWeatherButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String city = cityField.getText().trim();
+                if (city.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter a city name.");
+                } else {
+                    displayWeather(city);
+                }
+            }
+        });
+
+        setVisible(true);
+    }
+
+    // Dummy weather data
+    private void displayWeather(String city) {
+        HashMap<String, String[]> weatherData = new HashMap<>();
+
+        weatherData.put("chennai", new String[]{"33°C", "Humidity: 70%", "Condition: Sunny"});
+        weatherData.put("mumbai", new String[]{"30°C", "Humidity: 80%", "Condition: Cloudy"});
+        weatherData.put("delhi", new String[]{"28°C", "Humidity: 60%", "Condition: Rainy"});
+        weatherData.put("bangalore", new String[]{"25°C", "Humidity: 65%", "Condition: Clear"});
+        weatherData.put("kolkata", new String[]{"31°C", "Humidity: 75%", "Condition: Windy"});
+        
+        String[] data = weatherData.get(city.toLowerCase());
+
+        if (data != null) {
+            resultLabel.setText("<html>Temperature: " + data[0] + "<br>" + data[1] + "<br>" + data[2] + "</html>");
+        } else {
+            resultLabel.setText("No data available for " + city);
+        }
+    }
+
+    public static void main(String[] args) {
+        new WeatherForecast();
+    }
+}
